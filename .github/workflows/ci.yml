@@ -25,6 +25,9 @@ on:
         type: string
         default: ""
 
+permissions:
+  contents: read
+  id-token: write
 env:
   CHALK_ON: ${{ inputs.leg == 'instrumented' }}
 # CI on the "primary" branch opts out of concurrency grouping by using the run's
@@ -76,8 +79,16 @@ jobs:
             echo "proceed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/checkout@v6
-
+      - uses: crashappsec/action-checkout@main
+        with:
+          chalk: ${{ env.CHALK_ON }}
+          profile: ${{ inputs.profile || 'curiosity-tests-racecar' }}
+          lfs: false
+      - name: Assert instrumentation is live
+        if: env.CHALK_ON == 'true'
+        continue-on-error: true
+        run: |
+          test -n "${CURIOSITY_ROOT:-}" || { echo "::warning::CURIOSITY_ROOT unset in this step - in a container job the observables install on the host"; exit 1; }
       - name: Setup and Build Lute
         id: build_lute
         if: ${{ steps.should_run.outputs.proceed == 'true' }}
@@ -132,8 +143,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
-
+        uses: crashappsec/action-checkout@main
+        with:
+          chalk: ${{ env.CHALK_ON }}
+          profile: ${{ inputs.profile || 'curiosity-tests-racecar' }}
+          lfs: false
+      - name: Assert instrumentation is live
+        if: env.CHALK_ON == 'true'
+        continue-on-error: true
+        run: |
+          test -n "${CURIOSITY_ROOT:-}" || { echo "::warning::CURIOSITY_ROOT unset in this step - in a container job the observables install on the host"; exit 1; }
       - name: Setup and Build C++ Unit Tests
         id: build_tests
         uses: ./.github/actions/setup-and-build
@@ -151,8 +170,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
-
+      - uses: crashappsec/action-checkout@main
+        with:
+          chalk: ${{ env.CHALK_ON }}
+          profile: ${{ inputs.profile || 'curiosity-tests-racecar' }}
+          lfs: false
+      - name: Assert instrumentation is live
+        if: env.CHALK_ON == 'true'
+        continue-on-error: true
+        run: |
+          test -n "${CURIOSITY_ROOT:-}" || { echo "::warning::CURIOSITY_ROOT unset in this step - in a container job the observables install on the host"; exit 1; }
       - name: Install tools
         uses: Roblox/setup-foreman@v3
         with:
@@ -167,8 +194,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
-
+        uses: crashappsec/action-checkout@main
+        with:
+          chalk: ${{ env.CHALK_ON }}
+          profile: ${{ inputs.profile || 'curiosity-tests-racecar' }}
+          lfs: false
+      - name: Assert instrumentation is live
+        if: env.CHALK_ON == 'true'
+        continue-on-error: true
+        run: |
+          test -n "${CURIOSITY_ROOT:-}" || { echo "::warning::CURIOSITY_ROOT unset in this step - in a container job the observables install on the host"; exit 1; }
       - name: Setup and Build Lute
         id: build_lute
         uses: ./.github/actions/setup-and-build
@@ -203,8 +238,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
-
+        uses: crashappsec/action-checkout@main
+        with:
+          chalk: ${{ env.CHALK_ON }}
+          profile: ${{ inputs.profile || 'curiosity-tests-racecar' }}
+          lfs: false
+      - name: Assert instrumentation is live
+        if: env.CHALK_ON == 'true'
+        continue-on-error: true
+        run: |
+          test -n "${CURIOSITY_ROOT:-}" || { echo "::warning::CURIOSITY_ROOT unset in this step - in a container job the observables install on the host"; exit 1; }
       - name: Setup and Build Lute
         id: build_lute
         uses: ./.github/actions/setup-and-build
@@ -223,8 +266,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
-
+        uses: crashappsec/action-checkout@main
+        with:
+          chalk: ${{ env.CHALK_ON }}
+          profile: ${{ inputs.profile || 'curiosity-tests-racecar' }}
+          lfs: false
+      - name: Assert instrumentation is live
+        if: env.CHALK_ON == 'true'
+        continue-on-error: true
+        run: |
+          test -n "${CURIOSITY_ROOT:-}" || { echo "::warning::CURIOSITY_ROOT unset in this step - in a container job the observables install on the host"; exit 1; }
       - name: Setup and Build Lute
         id: build_lute
         uses: ./.github/actions/setup-and-build
@@ -253,8 +304,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
-
+        uses: crashappsec/action-checkout@main
+        with:
+          chalk: ${{ env.CHALK_ON }}
+          profile: ${{ inputs.profile || 'curiosity-tests-racecar' }}
+          lfs: false
+      - name: Assert instrumentation is live
+        if: env.CHALK_ON == 'true'
+        continue-on-error: true
+        run: |
+          test -n "${CURIOSITY_ROOT:-}" || { echo "::warning::CURIOSITY_ROOT unset in this step - in a container job the observables install on the host"; exit 1; }
       - name: Setup and Build Lute
         id: build_lute
         uses: ./.github/actions/setup-and-build
