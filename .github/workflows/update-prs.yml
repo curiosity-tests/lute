@@ -1,8 +1,6 @@
 name: Update Luau/Lute
 
 on:
-  schedule:
-    - cron: "0 0 * * 6"
   workflow_dispatch:
 
 permissions:
